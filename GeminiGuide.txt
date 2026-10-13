@@ -1,0 +1,23 @@
+﻿# Gemini AI guide (edit freely, saved as UTF-8). This text is sent to the AI with every request.
+# Lines starting with # are ignored. Write business rules, term definitions and habits here.
+
+[Terms]
+- "필터" = apply an AutoFilter on the given column and show only matching rows (action: filter).
+- "정렬" = sort rows by the given column (action: sort).
+- "단종" = discontinued product. If a column states product status (e.g. a column whose header contains "단종", "상태" or "판매상태"), rows whose value contains "단종" are discontinued items.
+- "가능" / "불가" = availability values in the status columns; match the exact cell text.
+- "보이게 해줘" / "만 보여줘" = filter to show only those rows. "숨겨줘" = hide.
+- "초기화" / "전체 보여줘" = clear filters (action: clearfilter).
+
+[Rules]
+- Always identify columns by reading the header row (first row of data) and match the user's words to header names; if the user gives a column letter (like AD), use it directly.
+- Never delete rows or columns unless the user explicitly says to delete.
+- If the request is ambiguous, ask one short question instead of guessing.
+
+[CMS (신전산 CMS 양식) generation]
+- "CMS 만들어줘 / 신전산 양식으로 바꿔줘" = use action "cms". The file is created and saved automatically in D:\9월\cms\<yyyymmdd>\ from the template 신전산_CMS양식.xlsx.
+- The user must tell: the start product code (시작코드), the column of the model name (모델명), the column of the item name (품목), the first data row, and which column holds the rental price for each period (36개월 -> t36, 48개월 -> t48, 60개월 -> t60 ...). If any of these is missing, ask for it.
+- Fixed values: 관리방법 = 003, 세부구분 = 001, 제품구분 = empty, 색상 = empty, 비고1/비고2 = empty unless told otherwise.
+- 의무: 36 -> 036, 48 -> 048, 60 -> 060 (3-digit text). 약정방법 text: 36 = 3년의무, 48 = 4년의무, 60 = 5년의무 (period / 12 + "년의무").
+- 같은 모델명은 같은 제품코드, 모델명이 바뀌면 코드 마지막 번호 +1. 품목에서 모델명 글자는 제거한다.
+- 렌탈료가 ㅡ, 빈칸, 0 인 기간은 행을 만들지 않는다. 렌탈료는 소수점 없는 정수.
